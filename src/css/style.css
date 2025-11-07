@@ -261,3 +261,33 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+.cart-total {
+  border-top: 2px solid var(--primary-color);
+  margin-top: 1em;
+  padding: 1em;
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+/* delete item button */
+
+.remove-item {
+  background-color: transparent;
+  border: 1px solid var(--tertiary-color);
+  color: var(--tertiary-color);
+  cursor: pointer;
+  font-size: var(--small-font);
+  text-decoration: underline;
+  padding: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+
+  text-decoration: none;
+}
+
+.remove-item:hover {
+  background-color: var(--tertiary-color);
+  color: white;
+}
