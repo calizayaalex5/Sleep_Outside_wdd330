@@ -37,4 +37,46 @@ export function renderListWithTemplate(templateFn, parentElement, list, position
   }
 
   parentElement.insertAdjacentHTML(position, htmlString.join(""));
-}                         
+}        
+
+/* ============================================================
+  renderWithTemplate
+  Renders ONE template + optional callback
+============================================================ */
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.innerHTML = "";
+
+  const clone = template.content.cloneNode(true);
+
+  if (callback) {
+    callback(clone, data)
+  }
+
+  parentElement.appendChild(clone)
+}      
+/* ============================================================
+  loadTemplate
+  Loads an HTML file containing a <template>
+============================================================ */
+export async function loadTemplate(path) {
+  const html = await fetch(path).then((res) => res.text());
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  return doc.querySelector("template");
+}
+
+/* ============================================================
+  loadHeaderFooter
+============================================================ */
+export async function loadHeaderFooter () {
+  const headerTemplate = await loadTemplate("/partials/header.html");
+  const headerElement = qs("#main-header")
+
+  const footerTemplate = await loadTemplate("/partials/footer.html");
+  const footerElement = qs("#main-footer");
+
+  renderWithTemplate(headerTemplate, headerElement)
+  renderWithTemplate(footerTemplate, footerElement)
+}

@@ -112,6 +112,7 @@ button {
 
 .divider {
   border-bottom: 2px solid var(--primary-color);
+  width: 100%;
 }
 
 /* End utility classes */
@@ -271,6 +272,81 @@ footer {
   font-size: 1.5em;
 }
 
+
+/* CATEGORIES INDEX */
+
+.category-list {
+  padding: 1rem;
+}
+
+.categories h2 {
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+  unicode-bidi: isolate;
+  padding: 1rem;
+}
+
+.category-list ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.category-list ul li {
+  display: flex;
+  text-align: center;
+}
+.category-list ul li img {
+  width: 8cqi;
+}
+
+.category-list ul li a {
+  text-decoration: none;
+  color: #303030;
+  font-weight: 700;
+}
+
+  @media only screen and (max-width: 500px) {
+    .category-list ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      gap: 1rem;
+    }
+
+    .category-list ul li {
+      border: 1px solid var(--secondary-color);
+      width: 200px;
+      height: 140px;
+      padding: 1rem;
+      
+      justify-content: center;
+      align-items: center;
+    }
+
+    .category-list ul li:hover {
+      background-color: #d0d0d0;
+    }
+
+    .category-list ul li img {
+      width: 6ch;
+    }
+  }
+    
+
+
+
+
+
+
+
+
+
+
 /* delete item button */
 
 .remove-item {
@@ -291,3 +367,5 @@ footer {
   background-color: var(--tertiary-color);
   color: white;
 }
+
+/* header */
