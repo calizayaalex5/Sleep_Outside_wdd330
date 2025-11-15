@@ -1,7 +1,10 @@
-import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter, setLocalStorage } from "./utils.mjs";
 
-loadHeaderFooter()
+loadHeaderFooter();
 
+// =====================
+// RENDER DEL CARRITO
+// =====================
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
 
@@ -11,49 +14,125 @@ function renderCartContents() {
     return;
   }
 
-  const htmlItems = cartItems.map((item, index) => cartItemTemplate(item, index));
+  const htmlItems = cartItems.map(item => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
 
   renderCartTotal(cartItems);
-  addRemoveItemListeners();
+  addCartEventListeners();
 }
 
-function cartItemTemplate(item, index) {
+
+// =====================
+// TEMPLATE DEL ITEM
+// =====================
+function cartItemTemplate(item) {
+  const quantity = item.quantity ?? 1;
+
   return `
     <li class="cart-card divider">
-      <a href="#" class="cart-card__image">
-        <img src="${item.Image}" alt="${item.Name}" />
+
+      <a class="cart-card__image">
+        <img src="${item.Images.PrimaryMedium}" alt="${item.Name}">
       </a>
-      <a href="#"><h2 class="card__name">${item.Name}</h2></a>
-      <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-      <p class="cart-card__quantity">qty: 1</p>
-      <p class="cart-card__price">$${item.FinalPrice}</p>
-      <button class="remove-item" data-index="${index}">❌ Remove</button>
-    </li>`;
+
+      <div class="cart-card__info">
+
+        <h2 class="card__name">${item.Name}</h2>
+        <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+
+        <!-- Cantidad -->
+        <div class="cart-card__quantity">
+          <button class="qty-minus" data-id="${item.Id}">−</button>
+          <span class="qty-value">${quantity}</span>
+          <button class="qty-plus" data-id="${item.Id}">+</button>
+        </div>
+
+        <!-- Subtotal -->
+        <p class="cart-card__subtotal">
+          Subtotal: $${(item.FinalPrice * quantity).toFixed(2)}
+        </p>
+
+        <!-- Remove -->
+        <button class="remove-item" data-id="${item.Id}">
+          ❌ Remove
+        </button>
+
+      </div>
+    </li>
+  `;
 }
 
+
+// =====================
+// TOTAL DEL CARRITO
+// =====================
 function renderCartTotal(cartItems) {
-  const total = cartItems.reduce((sum, item) => sum + Number(item.FinalPrice), 0);
-  const totalEl = document.querySelector(".cart-total");
-  totalEl.textContent = `Total: $${total.toFixed(2)}`;
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.FinalPrice * (item.quantity ?? 1),
+    0
+  );
+
+  document.querySelector(".cart-total").textContent =
+    `Total: $${total.toFixed(2)}`;
 }
 
-function addRemoveItemListeners() {
-  document.querySelectorAll(".remove-item").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const index = e.target.dataset.index;
-      removeItemFromCart(index);
-    });
-  });
+
+// =====================
+// EVENTOS PARA +, -, REMOVE
+// =====================
+function addCartEventListeners() {
+  // aumentar cantidad
+  document.querySelectorAll(".qty-plus").forEach(btn =>
+    btn.addEventListener("click", () => updateQuantity(btn.dataset.id, 1))
+  );
+
+  // disminuir cantidad
+  document.querySelectorAll(".qty-minus").forEach(btn =>
+    btn.addEventListener("click", () => updateQuantity(btn.dataset.id, -1))
+  );
+
+  // eliminar producto
+  document.querySelectorAll(".remove-item").forEach(btn =>
+    btn.addEventListener("click", () => removeItemFromCart(btn.dataset.id))
+  );
 }
 
-function removeItemFromCart(index) {
-  const cartItems = getLocalStorage("so-cart") || [];
-  cartItems.splice(index, 1);
-  localStorage.setItem("so-cart", JSON.stringify(cartItems));
+
+// =====================
+// ACTUALIZAR CANTIDAD
+// =====================
+function updateQuantity(id, change) {
+  let cart = getLocalStorage("so-cart") || [];
+
+  const item = cart.find(p => p.Id === id);
+  if (!item) return;
+
+  item.quantity = (item.quantity ?? 1) + change;
+
+  // eliminar si la cantidad llega a 0
+  if (item.quantity <= 0) {
+    cart = cart.filter(p => p.Id !== id);
+  }
+
+  setLocalStorage("so-cart", cart);
   renderCartContents();
 }
 
+
+// =====================
+// ELIMINAR PRODUCTO
+// =====================
+function removeItemFromCart(id) {
+  let cartItems = getLocalStorage("so-cart") || [];
+
+  cartItems = cartItems.filter(item => item.Id !== id);
+
+  setLocalStorage("so-cart", cartItems);
+  renderCartContents();
+}
+
+
+// =====================
+// INICIALIZAR RENDER
+// =====================
 renderCartContents();
-
-

@@ -272,6 +272,12 @@ footer {
   font-size: 1.5em;
 }
 
+.cart-card__quantity {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
 
 /* CATEGORIES INDEX */
 
