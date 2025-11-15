@@ -32,7 +32,7 @@ function cartItemTemplate(item) {
     <li class="cart-card divider">
 
       <a class="cart-card__image">
-        <img src="${item.Images.PrimarySmall} alt="${item.Name}">
+        <img src="${item.Images.PrimarySmall}" alt="${item.Name}">
       </a>
 
       <div class="cart-card__info">
