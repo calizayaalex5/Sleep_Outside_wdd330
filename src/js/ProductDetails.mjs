@@ -38,6 +38,7 @@ export default class ProductDetails {
         };
 
         cartItems.push(itemToSave);
+        
         }
 
         setLocalStorage("so-cart", cartItems);
