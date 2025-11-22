@@ -375,3 +375,127 @@ footer {
 }
 
 /* header */
+
+
+
+/* btn en cart index */
+
+.go-to-checkout .checkout-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.2rem;
+  background: #1a73e8;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+/* ============================
+   CHECKOUT PAGE STYLES
+   ============================ */
+
+.checkout-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+/* Títulos */
+.checkout-container h2 {
+  font-family: var(--font-headline);
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+/* ===== FORM ===== */
+#checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+#checkout-form fieldset {
+  border: 2px solid var(--light-grey);
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+#checkout-form legend {
+  font-weight: bold;
+  color: var(--tertiary-color);
+  padding: 0 0.5rem;
+}
+
+#checkout-form label {
+  display: block;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  font-size: var(--small-font);
+}
+
+#checkout-form input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Botón principal */
+.checkout-btn {
+  padding: 0.7rem;
+  margin-top: 1.5rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  font-size: 1.1em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.checkout-btn:hover {
+  background-color: var(--tertiary-color);
+}
+
+/* ===== ORDER SUMMARY ===== */
+.order-summary {
+  border: 2px solid var(--primary-color);
+  padding: 1rem;
+  border-radius: 6px;
+  background-color: #fff7f0;
+}
+
+.order-summary h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.order-summary p {
+  font-size: 1.1rem;
+  padding: 0.25rem 0;
+  color: var(--dark-grey);
+}
+
+.order-summary .summary-total {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding-top: 1rem;
+  border-top: 2px solid var(--primary-color);
+  text-align: right;
+  color: var(--secondary-color);
+}
+
+/* ===== Responsive ===== */
+@media screen and (min-width: 700px) {
+  .checkout-container {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+
+  #checkout-form input {
+    font-size: 1rem;
+  }
+}
