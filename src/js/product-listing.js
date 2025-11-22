@@ -1,5 +1,5 @@
-import { loadHeaderFooter, getParam  } from "./utils.mjs";
-import ProductData from './ProductData.mjs';
+import { loadHeaderFooter, getParam, renderBreadcrumb } from "./utils.mjs";
+import ExternalServices from './ExternalServices.mjs';
 import ProductList from './ProductList.mjs';
 
 loadHeaderFooter()
@@ -15,10 +15,14 @@ const formattedCategory = category
 
 document.querySelector("h2").textContent = `Top Products: ${formattedCategory}`;
 
-const dataSource = new ProductData();
+const dataSource = new ExternalServices();
 
 const element = document.querySelector('.product-list')
 
 const listing = new ProductList(category, dataSource, element);
+
+const products = await dataSource.getData(category);
+
+renderBreadcrumb(`${formattedCategory} → (${products.length} items)`);
 
 listing.init();

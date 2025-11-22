@@ -1,6 +1,6 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertAddToCart, renderBreadcrumb } from "./utils.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
-import { baseURL } from "./ProductData.mjs";
+import { baseURL } from "./ExternalServices.mjs";
 
 loadHeaderFooter();
 
@@ -15,6 +15,13 @@ export default class ProductDetails {
         this.product = await this.dataSource.findProductById(this.productId);
         this.renderProductDetails();
         
+        const categoryName = this.product.Category?.Name || "Category";
+        const formattedCategory = categoryName.replace(/\b\w/g, c => c.toUpperCase());
+
+        renderBreadcrumb(`${formattedCategory} → ${this.product.NameWithoutBrand}`);
+
+        this.renderProductDetails();
+
         document
           .getElementById("addToCart")
           .addEventListener("click", () => this.addProductToCart());
@@ -25,7 +32,12 @@ export default class ProductDetails {
         
         const existingItem = cartItems.find(item => item.Id === this.product.Id)
         if (existingItem) {
-        existingItem.quantity = (existingItem.quantity || 1) + 1;
+            existingItem.quantity = (existingItem.quantity || 1) + 1;
+            
+            alertAddToCart(
+                `${this.product.NameWithoutBrand} quantity updated ( x${existingItem.quantity} )`,
+                false
+            );
         } else {
         const itemToSave = {
             Id: this.product.Id,
@@ -38,15 +50,28 @@ export default class ProductDetails {
         };
 
         cartItems.push(itemToSave);
+
+        alertAddToCart(
+                `${this.product.NameWithoutBrand} added to cart!`,
+                false
+            );
         
         }
 
         setLocalStorage("so-cart", cartItems);
+
+        const cartIcon = document.querySelector(".cart");
+        cartIcon.classList.add("cart-bounce");
+
+        setTimeout(() => {
+            cartIcon.classList.remove("cart-bounce");
+        }, 500);
     }
 
     renderProductDetails() {
         ProductDetailsTemplate(this.product);   
     }
+
 }
 
 
@@ -64,3 +89,4 @@ function ProductDetailsTemplate(product) {
 
     document.getElementById('addToCart').dataset.id = product.Id;
 }
+

@@ -79,3 +79,106 @@ export async function loadHeaderFooter () {
   renderWithTemplate(headerTemplate, headerElement)
   renderWithTemplate(footerTemplate, footerElement)
 }
+
+/* ============================================================
+  Alert Messagess ERROR IN CHECKING
+============================================================ */
+export function alertMessage(message, scroll = true) {
+  const oldAlert = document.querySelector(".custom-alert")
+  if (oldAlert) oldAlert.remove()
+
+  //create alert
+  const div = document.createElement("div")
+  div.classList.add("custom-alert")
+  div.innerHTML = `
+    <p>${message}</p>
+    <button class='alert-close'>✖</button>
+  `
+
+  const main = document.querySelector("main")
+  main.prepend(div)
+
+  div.querySelector(".alert-close").addEventListener("click", () => {
+    div.remove();
+  })
+
+  if (scroll) {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth" 
+    })
+  }
+}
+
+
+/* ============================================================
+  Alert Messagess ADD ITEMS TO CART
+============================================================ */
+export function alertAddToCart(message) {
+  const oldAlert = document.querySelector(".cart-alert");
+  if (oldAlert) oldAlert.remove();
+
+  const div = document.createElement("div");
+  div.classList.add("cart-alert", "cart-slide");
+
+  div.innerHTML = `
+    <p>🛒 ${message}</p>
+  `;
+
+  document.body.appendChild(div);
+
+  // auto-hide
+  setTimeout(() => {
+    div.classList.add("cart-fade-out");
+    setTimeout(() => div.remove(), 250);
+  }, 2000);
+}
+
+/* ============================================================
+  BREADCUMBS
+============================================================ */
+export function renderBreadcrumb(text = "") {
+  const breadcrumb = document.querySelector("#breadcrumb");
+  if (!breadcrumb) return;
+
+  if (!text) {
+    breadcrumb.innerHTML = ""; // home → nothing
+    return;
+  }
+
+  breadcrumb.innerHTML = `<span>${text}</span>`;
+}
+
+/* =========================================================
+ALERT NEWSLETTER — floating, elegant & minimal
+============================================================ */
+export function alertNewsletter(message) {
+  const existing = document.querySelector(".newsletter-alert");
+  if (existing) existing.remove();
+
+  const box = document.createElement("div");
+  box.classList.add("newsletter-alert");
+  box.innerHTML = `
+    <span class="icon">✦</span>
+    <p>${message}</p>
+    <button class="close-alert-newsletter">✖</button>
+  `;
+
+  document.body.appendChild(box);
+
+  setTimeout(() => {
+    box.classList.add("show");
+  }, 10);
+
+
+  box.querySelector(".close-alert-newsletter").addEventListener("click", () => {
+    box.classList.remove("show");
+    setTimeout(() => box.remove(), 300);
+  });
+
+  setTimeout(() => {
+    box.classList.remove("show");
+    setTimeout(() => box.remove(), 300);
+  }, 3000);
+}
+
