@@ -150,7 +150,7 @@ export function renderBreadcrumb(text = "") {
 }
 
 /* =========================================================
-ALERT NEWSLETTER — floating, elegant & minimal
+ALERT NEWSLETTER 
 ============================================================ */
 export function alertNewsletter(message) {
   const existing = document.querySelector(".newsletter-alert");
